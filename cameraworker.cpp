@@ -4,7 +4,7 @@
 
 QImage mat2QImage(const cv::Mat mat2);
 
-CameraWorker::CameraWorker(int index):isRunning(false),index(index),inf("./best.onnx", cv::Size(640, 640), "classes.txt", false)
+CameraWorker::CameraWorker(int index):isRunning(false),index(index),inf("./mask_normal_palsy.onnx", cv::Size(640, 640), "./classes.txt", false)
 {
 
 }
@@ -107,5 +107,15 @@ void CameraWorker::setVideoCaptureSlot(bool toRunning)
         }
 //        waitKey(10000);
     }*/
+}
+
+void CameraWorker::setInferenceOnnx(QString onnxFile)
+{
+    this->inf.setOnnx(onnxFile);
+}
+
+void CameraWorker::setInferenceClasses(QString classFile)
+{
+    this->inf.setClasses(classFile);
 }
 

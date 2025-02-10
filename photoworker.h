@@ -13,6 +13,9 @@ class PhotoWorker : public QObject
     Q_OBJECT
 public:
     explicit PhotoWorker(QObject *parent = nullptr);
+
+    void setInferenceOnnx(QString onnxFile);
+    void setInferenceClasses(QString classFile);
 private:
     Inference inf;
     QString filename;

@@ -8,7 +8,7 @@ Inference::Inference(const std::string &onnxModelPath, const cv::Size &modelInpu
     cudaEnabled = runWithCuda;
 
     loadOnnxNetwork();
-    // loadClassesFromFile(); The classes are hard-coded for this example
+     loadClassesFromFile(); //The classes are hard-coded for this example
 }
 
 std::vector<Detection> Inference::runInference(const cv::Mat &input)
@@ -186,23 +186,39 @@ cv::Mat& Inference::predict(cv::Mat &frame)
         cv::Rect box = detection.box;
         cv::Scalar color = detection.color;
 
+
+
+
         // Detection box
         cv::rectangle(frame, box, color, 20);
 
         // Detection box text
         std::string classString = detection.className + ' ' + std::to_string(detection.confidence).substr(0, 4);
         cv::Size textSize = cv::getTextSize(classString, cv::FONT_HERSHEY_DUPLEX, 1, 2, 0);
-        cv::Rect textBox(box.x, box.y - 40, textSize.width + 10, textSize.height + 20);
+        cv::Rect textBox(box.x, box.y , textSize.width + 10, textSize.height + 20);
 
         cv::rectangle(frame, textBox, color, cv::FILLED);
-        cv::putText(frame, classString, cv::Point(box.x + 5, box.y - 10), cv::FONT_HERSHEY_DUPLEX, 1, cv::Scalar(0, 0, 0), 2, 0);
+        cv::putText(frame, classString, cv::Point(box.x + 5, box.y + 20), cv::FONT_HERSHEY_DUPLEX, 1, cv::Scalar(0, 0, 0), 2, 0);
     }
     cv::resize(frame, frame, cv::Size(640, 640));
     return frame;
 }
 
+void Inference::setOnnx(QString onnxFile)
+{
+    modelPath = onnxFile.toStdString();
+    loadOnnxNetwork();
+}
+
+void Inference::setClasses(QString classFile)
+{
+    classesPath = classFile.toStdString();
+    loadClassesFromFile();
+}
+
 void Inference::loadClassesFromFile()
 {
+    classes.clear();
     std::ifstream inputFile(classesPath);
     if (inputFile.is_open())
     {
@@ -215,7 +231,7 @@ void Inference::loadClassesFromFile()
 
 void Inference::loadOnnxNetwork()
 {
-    net = cv::dnn::readNetFromONNX(modelPath);
+    net = cv::dnn::readNetFromONNX(this->modelPath);
     if (cudaEnabled)
     {
         std::cout << "\nRunning on CUDA" << std::endl;

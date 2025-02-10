@@ -8,6 +8,7 @@
 #include <vector>
 #include <string>
 #include <random>
+#include <QString>
 
 // OpenCV / DNN / Inference
 #include <opencv2/imgproc.hpp>
@@ -33,6 +34,9 @@ public:
     std::vector<Detection> runInference(const cv::Mat &input);
     cv::Mat& predict(cv::Mat& input);
 
+    void setOnnx(QString onnxFile);
+    void setClasses(QString classFile);
+
 private:
     void loadClassesFromFile();
     void loadOnnxNetwork();
@@ -42,7 +46,7 @@ private:
     std::string classesPath{};
     bool cudaEnabled{};
 
-    std::vector<std::string> classes{"personppppppppp"};
+    std::vector<std::string> classes{"mask","normal","palsy"};
 
     cv::Size2f modelShape{};
 

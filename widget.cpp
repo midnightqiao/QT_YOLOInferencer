@@ -262,3 +262,30 @@ void Widget::on_fresh_clicked()
     }
 
 }
+
+void Widget::on_fileChooseBtn_clicked()
+{
+    if(ui->pushButton->text() == QString::fromLocal8Bit("关闭摄像头")){
+        appendDebugInfo("the camera is running ,can't  change parameter,please close camera firstly");
+        return;
+    }
+    this->onnxFile = QFileDialog::getOpenFileName(this,"choose onnx file");
+    this->classFile = QFileDialog::getOpenFileName(this,"choose class file");
+    if(onnxFile.isNull()){
+        appendDebugInfo("dont chose onnx file");
+    }
+    if(classFile.isNull()){
+        appendDebugInfo("dont chose class file");
+    }
+    if(onnxFile.isNull() || classFile.isNull()){
+        appendDebugInfo("the model dont change");
+        return;
+
+    }
+    appendDebugInfo("the onnx file have changed, current OnnxFile:" + onnxFile);
+    appendDebugInfo("the class file have changed, current ClassesFile:" +classFile);
+    this->worker->setInferenceOnnx(onnxFile);
+    this->worker->setInferenceClasses(classFile);
+    this->worker2->setInferenceOnnx(onnxFile);
+    this->worker2->setInferenceClasses(classFile);
+}

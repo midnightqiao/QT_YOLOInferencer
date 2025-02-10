@@ -46,7 +46,14 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>刷新</string>
+         <string>刷新相机列表</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="fileChooseBtn">
+        <property name="text">
+         <string>选择onnx模型文件及class类别文件</string>
         </property>
        </widget>
       </item>

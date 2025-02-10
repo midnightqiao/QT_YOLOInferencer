@@ -45,6 +45,8 @@ private:
     bool status = true;
     QString filename;
 
+    QString onnxFile;
+    QString classFile;
     void appendDebugInfo(QString info);
 
 private slots:
@@ -53,5 +55,6 @@ private slots:
     void saveImageSlot();
     void saveDebugInfoSlot();
     void on_fresh_clicked();
+    void on_fileChooseBtn_clicked();
 };
 #endif // WIDGET_H

@@ -18,10 +18,12 @@ public:
     void setIndex(int index);
 public slots:
     void setVideoCaptureSlot(bool toRunning);
-
+    void setInferenceOnnx(QString onnxFile);
+    void setInferenceClasses(QString classFile);
 signals:
     void predictFinished(Mat& mat);
     void cameraHasClosed();
+
 
 private:
     VideoCapture capture;
